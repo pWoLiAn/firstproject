@@ -13,58 +13,51 @@ import java.io.IOException;
 
 public class Death2 extends AppCompatActivity {
 
-
-
-
-    int no,g,counter=5;
+   int no,g,tr;
    Button check;
    TextView Info;
    EditText guess;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_death2);
 
-
-       Intent intent=getIntent();
-       Bundle bundle=intent.getExtras();
-       if(bundle==null){
+        Intent intent=getIntent();
+        Bundle bundle=intent.getExtras();
+        if(bundle==null){
            return;
        }
-       no=bundle.getInt("key");
-
+        no=bundle.getInt("key");
+        tr=bundle.getInt("key2");
 
         Info=(TextView)  findViewById(R.id.result);
         check= (Button)  findViewById(R.id.check);
-
-        guess=(EditText)  findViewById(R.id.guess);
-        g=Integer.parseInt(guess.getText().toString());
-
-
+        guess=(EditText) findViewById(R.id.guess);
 
         check.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                g = Integer.parseInt(guess.getText().toString());
                 validate();
             }
+
         });
     }
              public void validate() {
 
-
-                 if (counter > 0) {
+                 if (tr > 0) {
                      if (g > no) {
-                         Info.setText("higher");
-                         counter--;
+                         Info.setText("Your guess is greater");
+                         tr--;
                      } else if (g < no) {
-                         Info.setText("lower");
-                         counter--;
+                         Info.setText("Your guess is lower");
+                         tr--;
                      } else if (g == no) {
-                         Info.setText("Correct guess.Please go back to Main activity.");
+                         Info.setText("Correct guess.Go back & enter age of next person.");
                      }
                  } else
-                     Info.setText("You lost.Go back to Main activity");
+                     Info.setText("You lost.Go back & enter age of next person.");
 
              }
 }

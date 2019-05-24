@@ -7,18 +7,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
+
 
 public class MainActivity extends AppCompatActivity {
 
-
-
-
-     EditText user;
-     Button submit;
-     int no;
-
-
+    EditText user,tray;
+    Button submit;
+    int no,tr;
 
 
     @Override
@@ -26,10 +21,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         submit = (Button) findViewById(R.id.submit);
-
-
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -38,19 +30,20 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
 }
- public void openactivity2()
+    public void openactivity2()
 
-{
+    {
     user=(EditText) findViewById(R.id.user);
+    tray=(EditText) findViewById(R.id.tray);
     no=Integer.parseInt(user.getText().toString());
+    tr=Integer.parseInt(tray.getText().toString());
     Bundle bundle=new Bundle();
     bundle.putInt("key",no);
+    bundle.putInt("key2",tr);
     Intent intent=new Intent(this,Death2.class);
     intent.putExtras(bundle);
     startActivity(intent);
-
-}
+    }
 }
 
