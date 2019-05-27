@@ -2,7 +2,9 @@ package com.example.death;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -13,27 +15,34 @@ import java.io.IOException;
 
 public class Death2 extends AppCompatActivity {
 
-   int no,g,tr;
-   Button check;
-   TextView Info;
-   EditText guess;
+    int no, g, tr, won, loss;
+    Button check;
+    TextView Info, total;
+    EditText guess;
+    SharedPreferences prefs;
+    SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_death2);
 
-        Intent intent=getIntent();
-        Bundle bundle=intent.getExtras();
-        if(bundle==null){
-           return;
-       }
-        no=bundle.getInt("key");
-        tr=bundle.getInt("key2");
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+        if (bundle == null) {
+            return;
+        }
+        no = bundle.getInt("key");
+        tr = bundle.getInt("key2");
 
-        Info=(TextView)  findViewById(R.id.result);
-        check= (Button)  findViewById(R.id.check);
-        guess=(EditText) findViewById(R.id.guess);
+        Info = (TextView) findViewById(R.id.result);
+        total = (TextView) findViewById(R.id.total);
+        check = (Button) findViewById(R.id.check);
+        guess = (EditText) findViewById(R.id.guess);
+        prefs = getPreferences(Context.MODE_PRIVATE);
+        editor = prefs.edit();
+        won = prefs.getInt("won", 0);
+        loss = prefs.getInt("loss", 0);
 
         check.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -44,20 +53,30 @@ public class Death2 extends AppCompatActivity {
 
         });
     }
-             public void validate() {
 
-                 if (tr > 0) {
-                     if (g > no) {
-                         Info.setText("Your guess is greater");
-                         tr--;
-                     } else if (g < no) {
-                         Info.setText("Your guess is lower");
-                         tr--;
-                     } else if (g == no) {
-                         Info.setText("Correct guess.Go back & enter age of next person.");
-                     }
-                 } else
-                     Info.setText("You lost.Go back & enter age of next person.");
+    public void validate() {
 
-             }
+        if (tr > 0) {
+            if (g > no) {
+                Info.setText("Your guess is greater");
+                tr--;
+            } else if (g < no) {
+                Info.setText("Your guess is lower");
+                tr--;
+            } else if (g == no) {
+                Info.setText("Correct guess.Go back & enter age of next person.");
+                won++;
+                total.setText("You have won a total of " + won + " times");
+                editor.putInt("won", won);
+                editor.commit();
+            }
+        } else {
+            Info.setText("You lost.Go back & enter age of next person.");
+            loss++;
+            total.setText("You have lost a total of " + loss + " times");
+            editor.putInt("loss", loss);
+            editor.commit();
+
+        }
+    }
 }
