@@ -27,13 +27,14 @@ public class MainActivity extends AppCompatActivity {
         warn=(TextView)   findViewById(R.id.warn);
         user=(EditText)   findViewById(R.id.user);
         tray=(EditText)   findViewById(R.id.tray);
-        no=Integer.parseInt(user.getText().toString());
-        tr=Integer.parseInt(tray.getText().toString());
+
 
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
+                no=Integer.parseInt(user.getText().toString());
+                tr=Integer.parseInt(tray.getText().toString());
                 if((no>0&&no<=100)&&(tr>0&&tr<=100))
                 openactivity2();
                 else
