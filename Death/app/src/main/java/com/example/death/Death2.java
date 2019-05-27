@@ -11,7 +11,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import java.io.IOException;
 
 public class Death2 extends AppCompatActivity {
 
@@ -21,6 +20,7 @@ public class Death2 extends AppCompatActivity {
     EditText guess;
     SharedPreferences prefs;
     SharedPreferences.Editor editor;
+    View view;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +35,7 @@ public class Death2 extends AppCompatActivity {
         no = bundle.getInt("key");
         tr = bundle.getInt("key2");
 
+        view=this.getWindow().getDecorView();
         Info = (TextView) findViewById(R.id.result);
         total = (TextView) findViewById(R.id.total);
         check = (Button) findViewById(R.id.check);
@@ -56,21 +57,26 @@ public class Death2 extends AppCompatActivity {
 
     public void validate() {
 
-        if (tr > 0) {
+           if (tr > 0) process: {
             if (g > no) {
+                view.setBackgroundResource(R.color.red);
                 Info.setText("Your guess is greater");
-                tr--;
+                --tr;
+                if (tr<1) break process;
             } else if (g < no) {
+                view.setBackgroundResource(R.color.red);
                 Info.setText("Your guess is lower");
-                tr--;
+                --tr;
+                if (tr<1) break process;
             } else if (g == no) {
+                view.setBackgroundResource(R.color.green);
                 Info.setText("Correct guess.Go back & enter age of next person.");
                 won++;
                 total.setText("You have won a total of " + won + " times");
                 editor.putInt("won", won);
                 editor.commit();
             }
-        } else {
+        } if(tr<1) {
             Info.setText("You lost.Go back & enter age of next person.");
             loss++;
             total.setText("You have lost a total of " + loss + " times");
