@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -14,6 +15,7 @@ public class MainActivity extends AppCompatActivity {
     EditText user,tray;
     Button submit;
     int no,tr;
+    TextView warn;
 
 
     @Override
@@ -22,11 +24,20 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         submit = (Button) findViewById(R.id.submit);
+        warn=(TextView)   findViewById(R.id.warn);
+        user=(EditText)   findViewById(R.id.user);
+        tray=(EditText)   findViewById(R.id.tray);
+        no=Integer.parseInt(user.getText().toString());
+        tr=Integer.parseInt(tray.getText().toString());
+
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
+                if((no>0&&no<=100)&&(tr>0&&tr<=100))
                 openactivity2();
+                else
+                    warn.setText("age and no of tries should be btw 1-100");
             }
         });
 
@@ -34,10 +45,6 @@ public class MainActivity extends AppCompatActivity {
     public void openactivity2()
 
     {
-    user=(EditText) findViewById(R.id.user);
-    tray=(EditText) findViewById(R.id.tray);
-    no=Integer.parseInt(user.getText().toString());
-    tr=Integer.parseInt(tray.getText().toString());
     Bundle bundle=new Bundle();
     bundle.putInt("key",no);
     bundle.putInt("key2",tr);

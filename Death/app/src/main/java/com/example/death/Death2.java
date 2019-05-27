@@ -49,7 +49,10 @@ public class Death2 extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 g = Integer.parseInt(guess.getText().toString());
+                if(g>0&&g<=100)
                 validate();
+                else
+                    Info.setText("guess should be btw 1-100");
             }
 
         });
