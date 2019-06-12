@@ -16,7 +16,7 @@ public class Death2 extends AppCompatActivity {
 
     int no, g, tr, won, loss;
     Button check;
-    TextView Info, total;
+    TextView Info, total,left;
     EditText guess;
     SharedPreferences prefs;
     SharedPreferences.Editor editor;
@@ -35,10 +35,11 @@ public class Death2 extends AppCompatActivity {
         no = bundle.getInt("key");
         tr = bundle.getInt("key2");
 
-        view=this.getWindow().getDecorView();
-        Info = (TextView) findViewById(R.id.result);
+        view  = this.getWindow().getDecorView();
+        left  = (TextView) findViewById(R.id.left);
+        Info  = (TextView) findViewById(R.id.result);
         total = (TextView) findViewById(R.id.total);
-        check = (Button) findViewById(R.id.check);
+        check = (Button)   findViewById(R.id.check);
         guess = (EditText) findViewById(R.id.guess);
         prefs = getPreferences(Context.MODE_PRIVATE);
         editor = prefs.edit();
@@ -65,11 +66,13 @@ public class Death2 extends AppCompatActivity {
                 view.setBackgroundResource(R.color.red);
                 Info.setText("Your guess is greater");
                 --tr;
+                left.setText("You have " + tr + " tries left");
                 if (tr<1) break process;
             } else if (g < no) {
                 view.setBackgroundResource(R.color.red);
                 Info.setText("Your guess is lower");
                 --tr;
+                left.setText("You have " + tr + " tries left");
                 if (tr<1) break process;
             } else if (g == no) {
                 view.setBackgroundResource(R.color.green);
@@ -78,6 +81,7 @@ public class Death2 extends AppCompatActivity {
                 total.setText("You have won a total of " + won + " times");
                 editor.putInt("won", won);
                 editor.commit();
+                check.setEnabled(false);
             }
         } if(tr<1) {
             Info.setText("You lost.Go back & enter age of next person.");
@@ -85,7 +89,8 @@ public class Death2 extends AppCompatActivity {
             total.setText("You have lost a total of " + loss + " times");
             editor.putInt("loss", loss);
             editor.commit();
-
+            check.setEnabled(false);
         }
+
     }
 }
